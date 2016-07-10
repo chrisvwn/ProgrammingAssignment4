@@ -35,30 +35,25 @@ testx <- cbind(subject_test, testx)
 #we remove the numbering column from the column names which is not required
 colNames <- colNames[,2]
 
-#add the subject column name
-c("subject", colNames)
-
 #replace all activity numbers in the column names with their mapped names
-x1 <- lapply(activities[,1], function(x) paste0("[)|,]", x, "$"))
+for (i in 1:6)
+  {colNames <- sub(paste0("[)|,]", activities[i,1], "$"), activities[i,2], colNames)}
 
 #The names are in a mess. Assign clean unique names
 colNames <- make.names(colNames, unique=TRUE, allow_ = TRUE)
 
 #merge the train and test datasets
-dt <- rbind(trainx, testx)
+dat <- rbind(trainx, testx)
 
 #convert to a tbl_df for dplyr operations
-dt <- tbl_df(dt)
+dat <- tbl_df(dat)
 
 #name the data column names with the names from the columns data
-names(dt) <- colNames
+names(dat) <- colNames
 
 # select only fields relating to mean or standard deviation
 # i.e. that have mean or std in them
-dtMeanStd <- dplyr::select(dt, matches("mean|std"))
-
-#add the subject data to the dataset
-dtMeanStd <- cbind (rbind(subject_train, subject_test), dtMeanStd)
+dtMeanStd <- dplyr::select(dat, matches("mean|std"))
 
 #check the name of the subject column
 names(dtMeanStd)[1] <- "subject"
@@ -68,3 +63,7 @@ dtSubj <- split(dtMeanStd, dtMeanStd$subject)
 
 #calculate the column means for each subject
 dtSubjMeans <- sapply(dtSubj, colMeans)
+
+dtSubjMeans <- t(dtSubjMeans)
+
+write.table(dtSubjMeans, "output.csv", row.names = F, sep = ",")
