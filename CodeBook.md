@@ -1,4 +1,4 @@
-!!Codebook for assignment 4
+##Codebook for assignment 4
 
 This assignment combines all train and test data from the Samsung S wearables project including subject data and feature data. It also takes activity mapping and performs replacement of the variable names containing activity numbers with their names.
 

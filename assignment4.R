@@ -6,9 +6,6 @@
 
 library("dplyr") # load the dplyr library for easier manipulation of data
 
-#change directory to the data folder
-setwd("/media/NewVolume/Coursera/JHUDataScienceSpecialization/gettingandcleaningdata/assignment4/UCI HAR Dataset/")
-
 #load the train data
 trainx <- read.table("./train/X_train.txt", sep = "",header = FALSE)
 
